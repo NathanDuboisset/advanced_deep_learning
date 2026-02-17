@@ -10,3 +10,5 @@ wheels/
 .venv
 *.zip
 *.tar
+*.pth.tar
+*/data/
