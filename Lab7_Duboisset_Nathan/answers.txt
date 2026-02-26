@@ -1,0 +1,16 @@
+1 All answers become equally likely
+2  if we don't, since we divide by T inside the functions, the gradient would be divided by T² and would become really small too fast
+3  The ResNet-18 benefited most because it has enough capacity (11M params) to represent the inter-class relationships encoded in the teacher's soft outputs
+4  there is a minimum capacity threshold below which distillation stops helping
+5 The minority classes(ex :  dermatofibroma, vascular lesions) have the lowest F1 scores across teacher, standalone, and distilled models
+6 Distillation generally hurt or did not improve minority class performance compared to standalone training. The mechanism is bias propagation: the teacher itself is biased toward majority classes because it was trained on imbalanced data.
+7 The optimal range is approximately T = 4 to T = 8. At T = 1, the distributions remain nearly one-hot (close to hard labels), so the soft loss provides almost no additional inter-class similarity information beyond standard cross-entropy
+8 At T = 20, the softmax output is nearly flat : every class receives equal probability (1/10) regardless of the input : there is no knowledge
+
+1 Distillation helped when the student had enough capacity to absorb the teacher's soft targets (ResNet-18) and the teacher was unbiased, with a moderate temperature (T=4–8).
+
+2 Distillation failed when the student was too weak (Linear classifier), when the teacher was biased by class imbalance (DermaMNIST), or when the temperature was too extreme (T=1 collapses to hard labels, T=20 gives uniform noise).
+
+3 Make sure the student has enough capacity, check the teacher for bias on imbalanced data, and do a small temperature sweep (2 4 8) on a validation set before deploying.  
+
+4 To fix the imbalanced bias issue, weight each sample's KL divergence loss inversely by its class frequency so rare classes contribute more gradient and the student doesn't just copy the teacher's majority-class bias.

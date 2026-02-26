@@ -1,0 +1,15 @@
+  {
+  "student_name": "Duboisset Nathan",
+  "Q1_temperature_softmax": "",
+  "Q2_T_squared": "",
+  "Q3_capacity_benefit": "The ResNet-18 benefited most because it has enough capacity (11M params) to represent the inter-class relationships encoded in the teacher's soft outputs",
+  "Q4_capacity_relationship": "there is a minimum capacity threshold below which distillation stops helping",
+  "Q5_per_class_f1": "The minority classes(ex :  dermatofibroma, vascular lesions) have the lowest F1 scores across teacher, standalone, and distilled models",
+  "Q6_distillation_minority": "Distillation generally hurt or did not improve minority class performance compared to standalone training. The mechanism is bias propagation: the teacher itself is biased toward majority classes because it was trained on imbalanced data.",
+  "Q7_optimal_temperature": "The optimal range is approximately T = 4 to T = 8. At T = 1, the distributions remain nearly one-hot (close to hard labels), so the soft loss provides almost no additional inter-class similarity information beyond standard cross-entropy",
+  "Q8_high_temperature": "At T = 20, the softmax output is nearly flat : every class receives equal probability (1/10) regardless of the input : there is no knowledge",
+  "S1_when_helps": "Distillation helped when the student had enough capacity to absorb the teacher's soft targets (ResNet-18) and the teacher was unbiased, with a moderate temperature (T=4–8).",
+  "S2_when_fails": "Distillation failed when the student was too weak (Linear classifier), when the teacher was biased by class imbalance (DermaMNIST), or when the temperature was too extreme (T=1 collapses to hard labels, T=20 gives uniform noise).",
+  "S3_practical_guidelines": "Make sure the student has enough capacity, check the teacher for bias on imbalanced data, and do a small temperature sweep (2 4 8) on a validation set before deploying.  ",
+  "S4_proposed_modification": "To fix the imbalanced bias issue, weight each sample's KL divergence loss inversely by its class frequency so rare classes contribute more gradient and the student doesn't just copy the teacher's majority-class bias."
+}
